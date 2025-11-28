@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Anniversary ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. THEME VARIABLES --- */
+        :root {
+            --bg-color: #fdfbf7;       /* Creamy White */
+            --accent-pink: #f2d0d9;    /* Soft Rose */
+            --text-dark: #4a4a4a;      /* Soft Charcoal */
+            --text-accent: #b06d7e;    /* Muted Pink Text */
+            --card-bg: #ffffff;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Lato', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: linear-gradient(180deg, #fff0f3 0%, #fdfbf7 100%);
+            color: var(--text-dark);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- 2. LOCK SCREEN / COUNTDOWN --- */
+        #lock-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            transition: opacity 1.5s ease-out, visibility 1.5s;
+        }
+
+        #lock-screen h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--text-accent);
+            margin-bottom: 20px;
+        }
+
+        #timer {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 2px;
+        }
+
+        .note {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* --- 3. MAIN CONTENT STYLING --- */
+        #main-content {
+            opacity: 0; /* Hidden initially for fade-in effect */
+            transition: opacity 2s ease-in;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            color: var(--text-accent);
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 50px;
+            color: #666;
+        }
+
+        /* --- GALLERY GRID --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .memory-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(176, 109, 126, 0.1);
+            transition: transform 0.3s ease;
+            opacity: 0; /* For scroll animation */
+            transform: translateY(20px);
+        }
+
+        .memory-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: 300px; /* Fixed height for uniformity */
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            filter: sepia(10%); /* Slight warm filter */
+        }
+
+        .memory-card p {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--text-accent);
+            font-size: 1rem;
+        }
+
+        /* --- FINAL MESSAGE --- */
+        .footer-message {
+            margin-top: 80px;
+            padding: 40px;
+            border-top: 1px solid var(--accent-pink);
+        }
+
+        .heart-icon {
+            font-size: 2rem;
+            color: var(--text-accent);
+            animation: beat 2s infinite ease-in-out;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            #timer { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="lock-screen">
+        <h2>Our story continues in...</h2>
+        <div id="timer">Loading...</div>
+        <p class="note">This surprise opens on our anniversary.<br>Please wait for the special day.</p>
+    </div>
+
+    <div id="main-content">
+        <h1>Happy Anniversary,<br>My Love ❤️</h1>
+        
+        <p class="intro-text">
+            I can't believe another year has passed, ang bilis 'no love? I made this little corner of the internet 
+            just for us, to keep our favorite moments safe. Thank you for being my partner, 
+            my best friend, and my greatest adventure. I love you Bianca.
+        </p>
+
+        <div class="gallery-grid" id="gallery-container">
+            </div>
+
+        <div class="footer-message">
+            <h2>To many more years together.</h2>
+            <p>I love you more than words can say.</p>
+            <span class="heart-icon">❤️</span>
+<br><br>
+<a href="quiz.html" style="text-decoration: none;">
+    <button style="
+        padding: 12px 25px; 
+        background-color: #b06d7e; 
+        color: white; 
+        border: none; 
+        border-radius: 30px; 
+        font-family: 'Playfair Display', serif; 
+        font-size: 1rem; 
+        cursor: pointer; 
+        transition: opacity 0.3s;">
+        Play the Anniversary Quiz ❤️
+    </button>
+</a>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================
+           CONFIGURAITON SECTION (EDIT THIS!)
+           ========================================== */
+        
+        // 1. SET THE DATE (YYYY-MM-DDTHH:MM:SS+08:00 for GMT+8)
+        const unlockDate = new Date("2025-11-28T00:00:00+08:00").getTime();
+
+        // 2. ADD YOUR PHOTOS HERE
+        // Just copy the structure: { img: 'filename.jpg', caption: 'Your text' },
+        const memories = [
+            { 
+                img: 'cutepic.jpg', 
+                caption: 'One of my fav pics of us' 
+            },
+            { 
+                img: 'dreamplay.jpg', 
+                caption: 'That time we went to dreamplay na linibre moko' 
+            },
+            { 
+                img: 'manilahotel.jpg', 
+                caption: 'I wanna go to more hotels with you :>' 
+            },
+            { 
+                img: 'ikinari.jpg', 
+                caption: 'Our new fav :>' 
+            },
+            // Add more comma-separated items here...
+			{ 
+                img: 'datewithmoms.jpg', 
+                caption: 'Our first dinner with our Moms' 
+            },
+            { 
+                img: 'kiss.jpg', 
+                caption: 'Your kiss makes me feel so special. I love you' 
+            },
+            { 
+                img: 'moa.jpg', 
+                caption: 'You look so pretty here heheheh' 
+            },
+            { 
+                img: 'mestaringatyou.jpg', 
+                caption: 'I wanna go to more hotels with you :>' 
+            },
+            { 
+                img: 'goofybianca.jpg', 
+                caption: 'I love doing these wacky shots with you' 
+            },
+            { 
+                img: 'goofyjolo.jpg', 
+                caption: 'Looks like a titan. HAHAHAH' 
+            }
+        ];
+
+        /* ==========================================
+           LOGIC SECTION (DO NOT TOUCH BELOW)
+           ========================================== */
+        
+        const lockScreen = document.getElementById('lock-screen');
+        const mainContent = document.getElementById('main-content');
+        const timerDisplay = document.getElementById('timer');
+        const galleryContainer = document.getElementById('gallery-container');
+
+        // 1. COUNTDOWN LOGIC
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = unlockDate - now;
+
+            if (distance < 0) {
+                // UNLOCK
+                clearInterval(countdownInterval);
+                lockScreen.style.opacity = '0';
+                lockScreen.style.visibility = 'hidden';
+                mainContent.style.opacity = '1';
+                revealGallery(); // Trigger scroll animations
+            } else {
+                // UPDATE TIMER
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                timerDisplay.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }, 1000);
+
+        // 2. BUILD GALLERY DYNAMICALLY
+        memories.forEach(memory => {
+            const card = document.createElement('div');
+            card.classList.add('memory-card');
+            
+            card.innerHTML = `
+                <img src="${memory.img}" alt="${memory.caption}">
+                <p>${memory.caption}</p>
+            `;
+            galleryContainer.appendChild(card);
+        });
+
+        // 3. FADE IN ITEMS ON SCROLL
+        function revealGallery() {
+            const cards = document.querySelectorAll('.memory-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // Stagger the animation
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100); 
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            cards.forEach(card => observer.observe(card));
+        }
+        
+    </script>
+<audio id="bg-music" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<button id="music-toggle" onclick="toggleMusic()">
+    Play Music 🎵
+</button>
+
+<style>
+    /* Style for the floating button */
+    #music-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000; /* Ensures it sits on top of everything including lock screen */
+        background: #b06d7e; /* Matches your theme */
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-family: 'Lato', sans-serif; /* Matches your font */
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        opacity: 0.9;
+    }
+
+    #music-toggle:hover {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    /* Animation to make it noticeable */
+    @keyframes pulse-music {
+        0% { box-shadow: 0 0 0 0 rgba(176, 109, 126, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(176, 109, 126, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(176, 109, 126, 0); }
+    }
+
+    .music-playing {
+        animation: pulse-music 2s infinite;
+        background: #e6aebf !important; /* Lighter pink when playing */
+        color: #4a4a4a !important;
+    }
+</style>
+
+<script>
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-toggle');
+
+    // Set volume to 40% so it's not too loud
+    music.volume = 0.4;
+
+    function toggleMusic() {
+        if (music.paused) {
+            music.play();
+            musicBtn.innerHTML = "Pause Music ⏸️";
+            musicBtn.classList.add("music-playing");
+        } else {
+            music.pause();
+            musicBtn.innerHTML = "Play Music 🎵";
+            musicBtn.classList.remove("music-playing");
+        }
+    }
+
+    // SPECIAL: Attempt to autoplay when the user clicks ANYWHERE on the page
+    // This helps bypass the browser block seamlessly
+    document.body.addEventListener('click', function() {
+        if (music.paused) {
+            music.play().then(() => {
+                musicBtn.innerHTML = "Pause Music ⏸️";
+                musicBtn.classList.add("music-playing");
+            }).catch(e => {
+                // Autoplay blocked - user must use the button
+                console.log("Autoplay prevented by browser");
+            });
+        }
+    }, { once: true }); // This listener runs only once
+</script>
+</body>
+</html>

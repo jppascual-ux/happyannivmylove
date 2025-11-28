@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Quiz ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. THEME VARIABLES (Matching Main Page) --- */
+        :root {
+            --bg-color: #fdfbf7;
+            --accent-pink: #f2d0d9;
+            --deep-pink: #e6aebf;
+            --text-dark: #4a4a4a;
+            --text-accent: #b06d7e;
+            --card-bg: #ffffff;
+            --correct-green: #d4edda;
+            --wrong-red: #f8d7da;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Lato', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: linear-gradient(180deg, #fff0f3 0%, #fdfbf7 100%);
+            color: var(--text-dark);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- 2. QUIZ CONTAINER --- */
+        .quiz-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(176, 109, 126, 0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: var(--font-serif);
+            color: var(--text-accent);
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- 3. QUESTION STYLES --- */
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: #fff;
+            border: 2px solid var(--accent-pink);
+            padding: 15px;
+            border-radius: 50px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--accent-pink);
+            transform: translateY(-2px);
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        /* Correct/Incorrect States */
+        .option-btn.correct {
+            background-color: var(--correct-green);
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-red);
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        /* --- 4. FEEDBACK & CONTROLS --- */
+        .feedback-msg {
+            margin-top: 20px;
+            font-weight: bold;
+            min-height: 24px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .next-btn, .home-btn {
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: var(--text-accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: var(--font-serif);
+            letter-spacing: 1px;
+            display: none; /* Hidden until answer is picked */
+        }
+        
+        .next-btn:hover, .home-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* --- 5. RESULTS SCREEN --- */
+        #result-screen {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-family: var(--font-serif);
+            color: var(--text-accent);
+            margin: 20px 0;
+        }
+
+        .sweet-note {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Fix */
+        @media (max-width: 500px) {
+            .quiz-container { padding: 25px; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1>How well do you know us? ❤️</h1>
+
+        <div id="quiz-content">
+            <div class="question-text" id="question">Loading...</div>
+            <div class="options-list" id="options">
+                </div>
+            
+            <div class="feedback-msg" id="feedback"></div>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question</button>
+        </div>
+
+        <div id="result-screen">
+            <h2>Quiz Complete!</h2>
+            <div class="score-display" id="final-score">0 / 0</div>
+            <p class="sweet-note">
+                "No matter the score, you got the only answer right that matters:<br>
+                <strong>You said Yes to us.</strong> ❤️"
+            </p>
+            <a href="index.html">
+                <button class="home-btn" style="display:inline-block">Back to Our Anniversary Page</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        /* ==============================================
+           1. CONFIGURATION: EDIT YOUR QUESTIONS HERE
+           ============================================== */
+        
+        const quizData = [
+            {
+                question: "Where was our very first date?",
+                options: ["Udon Shop", "Tambayan 101", "PWU", "McDomeng"],
+                answer: 0 // 0 means the first option is correct
+            },
+            {
+                question: "What was the first dish I cooked for you that upset your stomach?",
+                options: ["Tinolang Manok", "Pancakes", "Steak", "Instant Noodles (lol)"],
+                answer: 2 // 2 means "Steak" is correct
+            },
+            {
+                question: "Which city do we dream of visiting together?",
+                options: ["Paris", "Tokyo", "New York", "Rome"],
+                answer: 1 // 1 means "Tokyo" is correct
+            },
+            {
+                question: "What year did we officially become a couple?",
+                options: ["2020", "2021", "2022", "2023"],
+                answer: 1 
+            },
+            {
+                question: "What was your first nickname for me?",
+                options: ["Mobile Construction Crane", "Big Dik Daddy", "Love", "CS:GO NERD"],
+                answer: 0 
+            }
+        ];
+
+        /* ==============================================
+           2. LOGIC (DO NOT EDIT BELOW)
+           ============================================== */
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const feedbackEl = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const quizContent = document.getElementById('quiz-content');
+        const resultScreen = document.getElementById('result-screen');
+        const finalScoreEl = document.getElementById('final-score');
+
+        // Initialize First Question
+        loadQuestion();
+
+        function loadQuestion() {
+            // Reset UI
+            feedbackEl.textContent = '';
+            feedbackEl.style.opacity = '0';
+            nextBtn.style.display = 'none';
+            optionsEl.innerHTML = ''; // Clear previous buttons
+
+            const currentData = quizData[currentQuestionIndex];
+
+            // Set Question Text
+            questionEl.textContent = currentData.question;
+
+            // Generate Options
+            currentData.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.classList.add('option-btn');
+                button.textContent = option;
+                button.onclick = () => selectOption(index, button);
+                optionsEl.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedIndex, buttonEl) {
+            const currentData = quizData[currentQuestionIndex];
+            const allButtons = document.querySelectorAll('.option-btn');
+
+            // Disable all buttons to prevent re-clicking
+            allButtons.forEach(btn => btn.disabled = true);
+
+            // Check Answer
+            if (selectedIndex === currentData.answer) {
+                score++;
+                buttonEl.classList.add('correct');
+                feedbackEl.textContent = "Correct! Galing mo naman love! 🥰";
+                feedbackEl.style.color = "#155724";
+            } else {
+                buttonEl.classList.add('wrong');
+                feedbackEl.textContent = "Oops! Ok lang yan, at least tama ka para sakin! 😋";
+                feedbackEl.style.color = "#721c24";
+                
+                // Optional: Highlight the correct answer too
+                allButtons[currentData.answer].classList.add('correct');
+            }
+
+            // Show Feedback & Next Button
+            feedbackEl.style.opacity = '1';
+            nextBtn.style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizContent.style.display = 'none';
+            resultScreen.style.display = 'block';
+            finalScoreEl.textContent = `${score} / ${quizData.length}`;
+        }
+    </script>
+<audio id="bg-music" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<button id="music-toggle" onclick="toggleMusic()">
+    Play Music 🎵
+</button>
+
+<style>
+    /* Style for the floating button */
+    #music-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000; /* Ensures it sits on top of everything including lock screen */
+        background: #b06d7e; /* Matches your theme */
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-family: 'Lato', sans-serif; /* Matches your font */
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        opacity: 0.9;
+    }
+
+    #music-toggle:hover {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    /* Animation to make it noticeable */
+    @keyframes pulse-music {
+        0% { box-shadow: 0 0 0 0 rgba(176, 109, 126, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(176, 109, 126, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(176, 109, 126, 0); }
+    }
+
+    .music-playing {
+        animation: pulse-music 2s infinite;
+        background: #e6aebf !important; /* Lighter pink when playing */
+        color: #4a4a4a !important;
+    }
+</style>
+
+<script>
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-toggle');
+
+    // Set volume to 40% so it's not too loud
+    music.volume = 0.4;
+
+    function toggleMusic() {
+        if (music.paused) {
+            music.play();
+            musicBtn.innerHTML = "Pause Music ⏸️";
+            musicBtn.classList.add("music-playing");
+        } else {
+            music.pause();
+            musicBtn.innerHTML = "Play Music 🎵";
+            musicBtn.classList.remove("music-playing");
+        }
+    }
+
+    // SPECIAL: Attempt to autoplay when the user clicks ANYWHERE on the page
+    // This helps bypass the browser block seamlessly
+    document.body.addEventListener('click', function() {
+        if (music.paused) {
+            music.play().then(() => {
+                musicBtn.innerHTML = "Pause Music ⏸️";
+                musicBtn.classList.add("music-playing");
+            }).catch(e => {
+                // Autoplay blocked - user must use the button
+                console.log("Autoplay prevented by browser");
+            });
+        }
+    }, { once: true }); // This listener runs only once
+</script>
+</body>
+</html>
